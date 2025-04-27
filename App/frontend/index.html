@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🧩 Echo AI Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pO1dQp+KW6p3XVK5eDeuQYci/2kZ6t+qJ6+LXbFmfVBcIlcB0ZMm97WzvZcg7p3lomq3YwXSs00E/2v4hK6LOw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <nav id="sidebar" class="sidebar">
+      <div class="logo">Echo AI Engine</div>
+      <ul class="nav-list">
+        <li class="nav-item active" data-section="home"><span class="icon">🏠</span><span>Home</span></li>
+        <li class="nav-item" data-section="search" data-engine="livelookup"><span class="icon">🔎</span><span>Live Lookup</span></li>
+        <li class="nav-item" data-section="search" data-engine="duckduckgo"><span class="icon">🌐</span><span>DuckDuckGo</span></li>
+        <li class="nav-item" data-section="search" data-engine="youtube"><span class="icon">📹</span><span>YouTube Video Summarizer</span></li>
+        <li class="nav-item" data-section="search" data-engine="wikipedia"><span class="icon">📚</span><span>Wikipedia</span></li>
+        <li class="nav-item" data-section="search" data-engine="arxiv"><span class="icon">📄</span><span>ArXiv</span></li>
+        <li class="nav-item" data-section="pdf"><span class="icon">📑</span><span>AI PDF Summarizer</span></li>
+        <li class="nav-item" data-section="tutor"><span class="icon">🎓</span><span>Tutor</span></li>
+        <li class="nav-item" data-section="quiz"><span class="icon">❓</span><span>Generate Quiz Questions</span></li>
+        <li class="nav-item" data-section="contact"><span class="icon">📬</span><span>Contact Us</span></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- HOME -->
+      <section id="home" class="panel">
+        <div class="container">
+          <!-- Section Header -->
+          <header class="section-header">
+            <h1>Welcome to Echo AI Engine</h1>
+            <p>
+              Echo AI Engine is a comprehensive, AI-powered platform designed to streamline research and learning.
+              Access multiple sources—from live news updates to academic insights—all within one unified interface.
+            </p>
+          </header>
+      
+          <!-- Features List -->
+          <div class="features">
+            <h3>Features</h3>
+            <div class="feature-item">
+              <strong>Live Lookup:</strong> Get real-time news and live data updates.
+            </div>
+            <div class="feature-item">
+              <strong>DuckDuckGo:</strong> Enjoy secure and private web searches.
+            </div>
+            <div class="feature-item">
+              <strong>YouTube Video Summarizer:</strong> Instantly summarize video content.
+            </div>
+            <div class="feature-item">
+              <strong>Wikipedia:</strong> Retrieve trusted information from Wikipedia.
+            </div>
+            <div class="feature-item">
+              <strong>ArXiv:</strong> Discover the latest academic research and papers.
+            </div>
+            <div class="feature-item">
+              <strong>AI PDF Summarizer:</strong> Upload and instantly summarize PDFs.
+            </div>
+            <div class="feature-item">
+              <strong>Tutor:</strong> Receive personalized tutoring on any topic.
+            </div>
+            <div class="feature-item">
+              <strong>Quiz Generator:</strong> Generate custom quiz questions for self-assessment.
+            </div>
+          </div>
+      
+          <!-- How It Works / Usage -->
+          <!-- <div class="usage">
+            <h3>How It Works</h3>
+            <div class="step">
+              <strong>Step 1:</strong> Select the tool you need from the sidebar.
+            </div>
+            <div class="step">
+              <strong>Step 2:</strong> Enter your query or upload a file/PDF.
+            </div>
+            <div class="step">
+              <strong>Step 3:</strong> Click “Search”, “Summarize”, or “Generate” to receive AI-enhanced results.
+            </div>
+            <div class="step">
+              <strong>Step 4:</strong> Review, copy, or download your results directly from the app.
+            </div>
+          </div> -->
+        </div>
+      </section>
+      
+
+      
+
+      <!-- SEARCH -->
+      <section id="search" class="panel hidden">
+        <h2 id="searchTitle">Search</h2>
+        <form id="searchForm" class="form">
+          <input type="text" id="searchQuery" placeholder="Enter query…" />
+          <button type="submit" id="searchBtn">🔍 Search</button>
+        </form>
+        <div id="searchLoader" class="loader hidden"></div>
+        <div class="results"><pre id="searchOutput" class="output"></pre></div>
+      </section>
+
+      <!-- READ FILE -->
+      <section id="readfile" class="panel hidden">
+        <h2>📂 Read File</h2>
+        <form id="uploadForm" class="form">
+          <input type="file" id="fileInput" accept=".txt" required />
+          <button type="submit">⬆️ Upload</button>
+        </form>
+        <form id="questionForm" class="form">
+          <input type="text" id="fileQuestion" placeholder="Ask a question…" />
+          <button type="submit">❓ Ask</button>
+        </form>
+        <div class="results"><pre id="fileAnswer" class="output"></pre></div>
+      </section>
+
+      <!-- PDF SUMMARIZER -->
+      <section id="pdf" class="panel hidden">
+        <h2>📑 AI PDF Summarizer</h2>
+        <form id="pdfForm" class="form">
+          <input type="file" id="pdfInput" accept=".pdf" required />
+          <button type="submit" id="pdfBtn">📝 Summarize PDF</button>
+        </form>
+        <div id="pdfLoader" class="loader hidden"></div>
+        <div class="results"><pre id="pdfOutput" class="output"></pre></div>
+      </section>
+
+
+      <!-- TUTOR -->
+      <section id="tutor" class="panel hidden">
+        <h2>🎓 Tutor</h2>
+        <form id="tutorForm" class="form">
+          <input type="text" id="tutorSubject" placeholder="Subject" />
+          <select id="tutorLevel">
+            <option value="">Level</option>
+            <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+          </select>
+          <select id="tutorStyle">
+            <option value="">Style</option>
+            <option>Visual</option><option>Text-based</option><option>Hands-on</option>
+          </select>
+          <input type="text" id="tutorBackground" placeholder="Background" />
+          <input type="text" id="tutorLanguage" placeholder="Language" />
+          <textarea id="tutorQuestion" placeholder="Your question…" rows="3"></textarea>
+          <button type="submit" id="tutorBtn">✍️ Explain</button>
+        </form>
+        <div id="tutorLoader" class="loader hidden"></div>
+        <div class="results"><pre id="tutorOutput" class="output"></pre></div>
+      </section>
+
+      <!-- QUIZ -->
+      <section id="quiz" class="panel hidden">
+        <h2>❓ Quiz</h2>
+        <form id="quizForm" class="form">
+          <input type="text" id="quizSubject" placeholder="Subject" />
+          <select id="quizLevel">
+            <option value="">Level</option>
+            <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+          </select>
+          <input type="number" id="quizCount" placeholder="# Questions" min="1" max="10" value="5" />
+          <button type="submit" id="quizBtn">🎲 Generate</button>
+        </form>
+        <div id="quizLoader" class="loader hidden"></div>
+        <div class="results"><pre id="quizOutput" class="output"></pre></div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="panel hidden">
+        <h2>📬 Contact Us</h2>
+        
+        <div class="social-links">
+          <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://yourwebsite.com" target="_blank" rel="noopener noreferrer">Personal Website</a>
+        </div>
+      </section>
+      
+      
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    &copy; 2025 Echo AI Engine. Crafted with <span class="heart">❤</span>
+  </footer>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

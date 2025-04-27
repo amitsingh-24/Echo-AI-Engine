@@ -1,0 +1,14 @@
+langchain==0.3.23
+langchain-community==0.3.21
+langchain-core==0.3.51
+langchain-groq==0.3.2
+langchain-text-splitters==0.3.8
+youtube-transcript-api==0.4.4
+duckduckgo_search==8.0.1
+tavily-python==0.7.0
+Markdown==3.8
+PyPDF2==3.0.1
+fastapi==0.115.9
+pydantic==2.11.2
+python-dotenv==1.1.0
+requests==2.32.3
