@@ -34,16 +34,12 @@ jobs:
 
       - name: Copy code into Space
         run: |
-          # If your code actually lives in a subfolder:
-          # CODE_DIR="${GITHUB_WORKSPACE}/Echo-AI-Engine"
-          # Otherwise, if it’s at the root, just use ./frontend etc.
-          
-          # Example assuming root:
-          rsync -av --delete --exclude='.git' ./frontend/ space/frontend/
-          rsync -av --delete --exclude='.git' ./backend/  space/backend/
-          cp Dockerfile      space/
-          cp requirements.txt space/
-          cp README.md       space/
+          # source inside App/ directory
+          rsync -av --delete --exclude='.git' App/frontend/ space/frontend/
+          rsync -av --delete --exclude='.git' App/backend/  space/backend/
+          cp App/Dockerfile      space/
+          cp App/requirements.txt space/
+          cp App/README.md       space/
 
       - name: Push changes to Hugging Face
         env:
