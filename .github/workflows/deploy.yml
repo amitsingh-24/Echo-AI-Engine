@@ -26,27 +26,35 @@ jobs:
           HF_SPACE: asr24/Echo-AI-Engine
         run: |
           git clone https://huggingface.co/spaces/$HF_SPACE space/
-          echo "→ Cloned Space into ./space"
+
+      - name: list workspace
+        run: |
+          echo "→ PWD: $PWD"
+          ls -R .
 
       - name: Copy code into Space
         run: |
-          rsync -av --delete --exclude='.git' ./frontend/ ./space/frontend/
-          rsync -av --delete --exclude='.git' ./backend/  ./space/backend/
-          # bring in Dockerfile, requirements, README, etc.
+          # If your code actually lives in a subfolder:
+          # CODE_DIR="${GITHUB_WORKSPACE}/Echo-AI-Engine"
+          # Otherwise, if it’s at the root, just use ./frontend etc.
+          
+          # Example assuming root:
+          rsync -av --delete --exclude='.git' ./frontend/ space/frontend/
+          rsync -av --delete --exclude='.git' ./backend/  space/backend/
           cp Dockerfile      space/
           cp requirements.txt space/
           cp README.md       space/
 
       - name: Push changes to Hugging Face
         env:
-          HF_TOKEN:        ${{ secrets.HF_TOKEN }}
-          HF_SPACE:        asr24/Echo-AI-Engine
-          GIT_USER_EMAIL:  ${{ secrets.GIT_USER_EMAIL }}
-          GIT_USER_NAME:   ${{ secrets.GIT_USER_NAME }}
+          HF_TOKEN:       ${{ secrets.HF_TOKEN }}
+          HF_SPACE:       asr24/Echo-AI-Engine
+          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+          GIT_USER_NAME:  ${{ secrets.GIT_USER_NAME }}
         run: |
           cd space
           git config user.email "$GIT_USER_EMAIL"
           git config user.name  "$GIT_USER_NAME"
           git add .
-          git diff --quiet --cached || git commit -m "🛠️ CI deploy: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          git diff --quiet --cached || git commit -m "🛠️ CI deploy: $(date -u)"
           git push https://hf-token:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}.git HEAD:main
