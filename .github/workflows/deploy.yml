@@ -1,0 +1,52 @@
+name: 🚀 Deploy to Hugging Face Spaces
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install huggingface_hub
+        run: pip install --upgrade huggingface_hub
+
+      - name: Clone Space repository
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: asr24/Echo-AI-Engine
+        run: |
+          git clone https://huggingface.co/spaces/$HF_SPACE space/
+          echo "→ Cloned Space into ./space"
+
+      - name: Copy code into Space
+        run: |
+          rsync -av --delete --exclude='.git' ./frontend/ ./space/frontend/
+          rsync -av --delete --exclude='.git' ./backend/  ./space/backend/
+          # bring in Dockerfile, requirements, README, etc.
+          cp Dockerfile      space/
+          cp requirements.txt space/
+          cp README.md       space/
+
+      - name: Push changes to Hugging Face
+        env:
+          HF_TOKEN:        ${{ secrets.HF_TOKEN }}
+          HF_SPACE:        asr24/Echo-AI-Engine
+          GIT_USER_EMAIL:  ${{ secrets.GIT_USER_EMAIL }}
+          GIT_USER_NAME:   ${{ secrets.GIT_USER_NAME }}
+        run: |
+          cd space
+          git config user.email "$GIT_USER_EMAIL"
+          git config user.name  "$GIT_USER_NAME"
+          git add .
+          git diff --quiet --cached || git commit -m "🛠️ CI deploy: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          git push https://hf-token:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}.git HEAD:main
