@@ -7,8 +7,8 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
-from tutor_engine import generate_tutoring_response, generate_quiz
-from youtube_summarizer import YouTubeSummarizer
+from backend.tutor_engine import generate_tutoring_response, generate_quiz
+from backend.youtube_summarizer import YouTubeSummarizer, youtube_summarize
 
 from langchain_groq import ChatGroq
 from langchain.agents import initialize_agent, Tool
