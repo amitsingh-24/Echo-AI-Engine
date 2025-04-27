@@ -52,5 +52,5 @@ jobs:
           git config user.email "$GIT_USER_EMAIL"
           git config user.name  "$GIT_USER_NAME"
           git add .
-          git diff --quiet --cached || git commit -m "🛠️ CI deploy: $(date -u)"
+          git diff --quiet --cached || git commit -m "🛠️ CI deploy: Updated Latest Version"
           git push https://hf-token:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}.git HEAD:main
