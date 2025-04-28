@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: echo-ai-engine
+    env: docker
+    plan: free             
+    branch: renderdeploy     
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: GROQ_API_KEY
+      - key: TAVILY_API_KEY
+
