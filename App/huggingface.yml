@@ -1,2 +1,3 @@
 sdk: docker
+build_image: true
 dockerfile_path: Dockerfile
