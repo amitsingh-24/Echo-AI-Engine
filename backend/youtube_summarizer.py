@@ -76,6 +76,11 @@ class YouTubeSummarizer:
             if match:
                 return match.group(1)
         return None
+    
+    def _fetch(self, video_id: str, languages: list) -> str:
+        entries = YouTubeTranscriptApi.get_transcript(video_id, languages=languages)
+        return " ".join([e["text"] for e in entries])
+
 
     def get_transcript(self, video_id: str) -> str:
         """
@@ -93,7 +98,7 @@ class YouTubeSummarizer:
                     [t.language_code for t in transcripts]
                 )
                 snippets = gen.fetch()
-                return " ".join([snippet.text for snippet in snippets])
+                return " ".join([snippet["text"] for snippet in snippets])
             except NoTranscriptFound:
                 pass
 
@@ -102,13 +107,13 @@ class YouTubeSummarizer:
                     [t.language_code for t in transcripts]
                 )
                 snippets = man.fetch()
-                return " ".join([snippet.text for snippet in snippets])
+                return " ".join([snippet["text"] for snippet in snippets])
             except NoTranscriptFound:
                 pass
 
             tr = transcripts.find_transcript(["en"])
             snippets = tr.fetch()
-            return " ".join([snippet.text for snippet in snippets])
+            return " ".join([snippet["text"] for snippet in snippets])
         
     def summarize_video(self, youtube_url: str) -> dict:
         """

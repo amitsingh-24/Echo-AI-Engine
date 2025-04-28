@@ -65,7 +65,7 @@
           youtube:    '📹 YouTube',
           wikipedia:  '📚 Wikipedia',
           arxiv:      '📄 ArXiv',
-          livelookup:     '🔎 Live Lookup',
+          livelookup: '🔎 Live Lookup',
         };
         const input = document.getElementById('searchQuery');
         document.getElementById('searchTitle').textContent = labels[currentEngine] + (currentEngine==='youtube'?' Summary':' Search');

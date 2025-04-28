@@ -24,10 +24,9 @@ import markdown as md
 from PyPDF2 import PdfReader
 from tavily import TavilyClient
 
-load_dotenv()
 app = FastAPI()
 
-app.add_middleware(CORSMiddleware, allow_origins = ["*"], allow_methods = ["*"], allow_headers = ["*"])
+# app.add_middleware(CORSMiddleware, allow_origins = ["*"], allow_methods = ["*"], allow_headers = ["*"])
 llm = ChatGroq(model= "gemma2-9b-it", temperature = 0.1, max_tokens = 3000)
 
 UPLOAD_DIR = tempfile.gettempdir()
@@ -55,7 +54,6 @@ class QuizRequest(BaseModel):
 def youtube_summarize(youtube_url: str) -> dict:
     summarizer = YouTubeSummarizer(llm)
     result = summarizer.summarize_video(youtube_url)
-    print(result)
     if result["status"] == "success":
         unfiltered_text =  (result["summary"])
         return unfiltered_text
@@ -64,7 +62,7 @@ def youtube_summarize(youtube_url: str) -> dict:
 
 def search_duckduckgo(q: str) -> str:
     tool = Tool(name = "DuckDuckGO Search", func = DuckDuckGoSearchRun().run, description = "Perform Web Searches using DuckDuckGo")
-    agent = initialize_agent([tool], llm, agent = "zero-shot-react-description", verbose = True)
+    agent = initialize_agent([tool], llm, agent = "zero-shot-react-description", verbose = False)
 
     detailed_prompt = q + "\n\nPlease provide a thorough explanation amounting to roughly 1000 words."
     
@@ -72,7 +70,7 @@ def search_duckduckgo(q: str) -> str:
 
 def search_wikipedia(q :str) -> str:
     tool = Tool(name = "Wikipedia Search", func = WikipediaAPIWrapper().run, description = "Search Wikipedia for summaries")
-    agent = initialize_agent([tool], llm, agent = "zero-shot-react-description", verbose = True)
+    agent = initialize_agent([tool], llm, agent = "zero-shot-react-description", verbose = False)
 
     detailed_prompt = q + "\n\nPlease provide a thorough explanation amounting to roughly 1000 words."
 
@@ -80,7 +78,7 @@ def search_wikipedia(q :str) -> str:
 
 def search_arxiv(q: str) -> str:
     tool = Tool(name = "Arxiv Search", func = ArxivQueryRun().run, description = "Search academic papers on arXiv")
-    agent = initialize_agent([tool], llm, agent = "zero-shot-react-description", verbose = True)
+    agent = initialize_agent([tool], llm, agent = "zero-shot-react-description", verbose = False)
 
     detailed_prompt = q + "\n\nPlease provide 5 latest papers and 5 top cited papers."
     return agent.run(detailed_prompt)
@@ -226,7 +224,7 @@ def api_search(body: Query):
         raw = search_wikipedia(body.query)
     elif src == "arxiv":
         raw = search_arxiv(body.query)
-    elif src == "tavily":
+    elif src == "livelookup":
         raw = search_tavily(body.query) 
     else:
         raise HTTPException(404, f"Unknown source '{body.source}'")
