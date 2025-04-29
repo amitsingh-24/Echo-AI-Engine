@@ -82,7 +82,6 @@
   showPanel('home');
 
   // SEARCH
-  // script.js
   document.getElementById('searchForm').addEventListener('submit', async e => {
     e.preventDefault();
 
@@ -115,7 +114,7 @@
     }
   });
 
-  // ─── PDF SUMMARIZER ───────────────────────
+  // PDF SUMMARIZER
   document.getElementById('pdfForm').addEventListener('submit', async e => {
     e.preventDefault(); 
     const fileIn = document.getElementById('pdfInput');
@@ -143,7 +142,6 @@
     }
   });
 
-
   // TUTOR
   document.getElementById('tutorForm').addEventListener('submit', async e => {
     e.preventDefault(); clearAll();
@@ -169,7 +167,6 @@
         body: JSON.stringify(payload)
       });
       const data = await res.json();
-      // <-- use innerHTML here
       out.innerHTML = data.html;
     } catch(err) {
       out.textContent = '❌ ' + err.message;

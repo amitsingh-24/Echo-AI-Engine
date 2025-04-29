@@ -109,7 +109,7 @@ body, html { height:100%; font-family:var(--font); display:flex; flex-direction:
 
 #contact .social-links {
   display: flex;
-  flex-direction: column; /* Arranges the boxes vertically */
+  flex-direction: column;
   align-items: center;
   gap: 1.5rem;
   margin-top: 2rem;
@@ -126,13 +126,13 @@ body, html { height:100%; font-family:var(--font); display:flex; flex-direction:
   letter-spacing: 0.04em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  width: 100%; /* Makes the links fill the container width */
-  max-width: 300px; /* Limit width of the buttons */
+  width: 100%; 
+  max-width: 300px; 
   text-align: center;
 }
 
 #contact .social-links a:hover {
-  background-color: #d73753; /* Slightly darker shade on hover */
+  background-color: #d73753;
   transform: translateY(-3px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
